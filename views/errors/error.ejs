@@ -1,0 +1,9 @@
+<!-- Draw the title if provided, if not redirect to default page -->
+<% if (title) { %>
+    <h1><%= title %></h1>
+<% } else {
+    res.redirect('/')
+} %>
+
+<!-- Error Message -->
+<%- message %>
