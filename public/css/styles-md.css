@@ -1,0 +1,29 @@
+@media only screen and (min-width: 768px){
+    body{
+        background-image: url("../images/site/small_check.png");
+        margin-top: 1rem;
+        background-size: cover;
+        font-family: var(--paragraph-font);
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        overflow: scroll;
+
+    }
+
+    .main-container{
+        background-color: white;
+        max-width: 960px;
+        border: 8px solid red;
+        border-radius: 5px;
+        padding: 5px;
+        height: auto;
+    }
+
+    #inv-display{
+        grid-template-columns: repeat(4,1fr);
+    }
+}

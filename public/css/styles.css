@@ -10,33 +10,9 @@
   --paragraph-font: 'Raleway', sans-serif;
 }
 
-@media only screen and (min-width: 768px){
-  body{
-    background-image: url("../images/site/small_check.png");
-    margin-top: 1rem;
-    background-size: cover;
-    font-family: var(--paragraph-font);
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-attachment: fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    overflow: scroll;
-  
-  }
-
-  .main-container{
-    background-color: white;
-    max-width: 960px;
-    border: 8px solid red;
-    border-radius: 5px;
-    padding: 5px;
-    height: auto;
-  }
+.main-container{
+  margin: 0 auto;
 }
-
-
 
 main{
   background-color: white;
@@ -183,7 +159,45 @@ footer{
   color: red;
 }
 
+h1{
+  text-align: center;
+  padding-bottom:.5rem;
+}
+
 section{
   padding: 5px;
   margin: 5px;
+}
+
+#inv-display{
+  text-align: center;
+  margin: 0;
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+#inv-display li{
+  list-style: none;
+  width: 100%;
+  border: 1px solid red;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+#inv-display a:link{
+  text-decoration: none;
+  color: red;
+}
+
+#inv-display a:hover{
+  text-decoration: underline;
+  color: red;
+}
+
+#inv-display img{
+  width: 100%;
+  height: auto;
+  object-fit: cover;
 }
