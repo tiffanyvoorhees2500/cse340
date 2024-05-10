@@ -77,7 +77,7 @@ Util.buildDetailView = async function(item){
       detail += '<p><span class="detail-heading">Year: </span><span class="detail">' + item.inv_year + '</span></p>'
       detail += '<p><span class="detail-heading">Make: </span><span class="detail">' + item.inv_make + '</span></p>'
       detail += '<p><span class="detail-heading">Model: </span><span class="detail">' + item.inv_model + '</span></p>'
-      detail += '<p><span class="detail-heading">Mileage: </span><span class="detail">' + item.inv_miles + '</span></p>'
+      detail += '<p><span class="detail-heading">Mileage: </span><span class="detail">' + Intl.NumberFormat("en-US").format(item.inv_miles) + '</span></p>'
       detail += '<p><span class="detail-heading">Color: </span><span class="detail">' + item.inv_color + '</span></p>'
       
       detail += '<p class="item-description">' + item.inv_description + '</p>'
