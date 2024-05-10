@@ -39,9 +39,9 @@ Util.buildClassificationGrid = async function(data){
       + '" title="View ' + vehicle.inv_make + ' '+ vehicle.inv_model 
       + 'details"><img src="' + vehicle.inv_thumbnail 
       +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
-      +' on CSE Motors" /></a>'
+      +' on CSE Motors"></a>'
       grid += '<div class="namePrice">'
-      grid += '<hr />'
+      grid += '<hr>'
       grid += '<h2>'
       grid += '<a href="../../inv/detail/' + vehicle.inv_id +'" title="View ' 
       + vehicle.inv_make + ' ' + vehicle.inv_model + ' details">' 
@@ -57,6 +57,34 @@ Util.buildClassificationGrid = async function(data){
     grid += '<p class="notice">Sorry, no matching vehicles could be found.</p>'
   }
   return grid
+}
+
+/* **************************************
+* Build the inventory item detail view HTML
+* ************************************ */
+Util.buildDetailView = async function(item){
+  let detail
+
+  detail = '<div class="info-container">'
+    detail += '<picture  id="itemImage">'
+      detail += '<img src="' + item.inv_image +'" alt="Image of '+ item.inv_make + ' ' + item.inv_model +' on CSE Motors">'
+    detail += '</picture>'
+    
+    detail += '<p id="price">' + Intl.NumberFormat("en-US",{style: "currency", currency: "USD",}).format(item.inv_price) + '</p>'
+    
+    detail += '<div class="detail-section">'
+      detail += '<p><span class="detail-heading">Year: </span><span class="detail">' + item.inv_year + '</span></p>'
+      detail += '<p><span class="detail-heading">Make: </span><span class="detail">' + item.inv_make + '</span></p>'
+      detail += '<p><span class="detail-heading">Model: </span><span class="detail">' + item.inv_model + '</span></p>'
+      detail += '<p><span class="detail-heading">Mileage: </span><span class="detail">' + item.inv_miles + '</span></p>'
+      detail += '<p><span class="detail-heading">Color: </span><span class="detail">' + item.inv_color + '</span></p>'
+      
+      detail += '<p class="item-description">' + item.inv_description + '</p>'
+    detail += '</div>'
+
+  detail += '</div>'
+
+  return detail
 }
 
 /* ****************************************

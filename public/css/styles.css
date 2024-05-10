@@ -8,6 +8,14 @@
 
 :root{
   --paragraph-font: 'Raleway', sans-serif;
+
+  --dark-color: #000000;
+  --light-color: #FFFFFF;
+  --accent-color: #DB162F;
+}
+
+body{
+  padding: .5rem;
 }
 
 .main-container{
@@ -15,7 +23,7 @@
 }
 
 main{
-  background-color: white;
+  background-color: var(--light-color);
 }
 
 .grid-item-description{
@@ -35,7 +43,7 @@ main{
   z-index: 1;
   background-color: rgba(255,255,255,0.8);
   padding: 10px;
-  color: red;
+  color: var(--accent-color);
 }
 
 #product-title{
@@ -54,8 +62,8 @@ main{
 }
 
 nav{
-  background-color: black;
-  color: white;
+  background-color: var(--dark-color);
+  color: var(--light-color);
   margin: 0 auto 2rem;
 }
 
@@ -72,15 +80,24 @@ nav{
 
 .navigation a{
   display: block;
-  color:white;
+  color:var(--light-color);
   padding: 0.75rem;
   text-decoration: none;
   text-align: center;
 }
+
+.navigation a:link, .navigation a:visited{
+  color:var(--light-color);
+}
+
 .navigation a:hover {
 	font-weight: 700;
 	text-decoration: underline;
-	text-decoration-color: red;
+	text-decoration-color: var(--accent-color);
+}
+
+.navigation.active::before{
+  content: "🚗"; /* just a wayfinding symbol for the user */
 }
 
 .wrap{
@@ -104,13 +121,13 @@ nav{
 
 .siteName a{
   text-decoration: none;
-  color: black;
+  color: var(--dark-color);
   font-size: 2em;
 }
 
 #tools a{
   text-decoration: none;
-  color: black;
+  color: var(--dark-color);
 }
 
 footer{
@@ -136,7 +153,7 @@ footer{
   align-items: center;
   width: 100%;
   height: 100%;
-  border: 2px solid red;
+  border: 2px solid var(--accent-color);
   padding: 5px;
 }
 
@@ -146,22 +163,23 @@ footer{
 }
 
 .action-button{
-  background-color:red;
+  background-color:var(--primary-color);
   font-weight: bold;
-  color: black;
-  padding: 10px 10px;
-  border: 2px solid red;
+  color: var(--dark-color);
+  padding: 10px;
+  border: 2px solid var(--accent-color);
   border-radius: 10px;
 }
 
 .action-button:hover{
-  background-color: black;
-  color: red;
+  color: var(--accent-color);
+  font-size: 1rem;
 }
 
 h1{
   text-align: center;
   padding-bottom:.5rem;
+  color: var(--accent-color)
 }
 
 section{
@@ -181,23 +199,86 @@ section{
 #inv-display li{
   list-style: none;
   width: 100%;
-  border: 1px solid red;
+  border: 1px solid var(--accent-color);
   padding: 1rem;
   margin-bottom: 1rem;
+  font-size: .8rem;
 }
 
 #inv-display a:link{
-  text-decoration: none;
-  color: red;
+  color: var(--accent-color);
+}
+
+#inv-display a:visited{
+  text-decoration: underline;
+  color: var(--dark-color);
 }
 
 #inv-display a:hover{
   text-decoration: underline;
-  color: red;
+  color: var(--accent-color);
 }
 
 #inv-display img{
   width: 100%;
   height: auto;
   object-fit: cover;
+}
+
+/* For Display Item View*/
+.info-container{
+  padding: 1rem;
+}
+
+#itemImage img{
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.detail-section{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.detail-section p{
+  width: 100%;
+}
+
+.detail-heading{
+  font-weight: bold;
+}
+
+.item-description{
+  grid-column: 1/3;
+}
+
+#price{
+  color: var(--accent-color);
+  font-size: 1.5rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+.error-grid{
+  display: grid;
+}
+#error-pic{
+  grid-column: 1/5;
+  grid-row: 1/5;
+}
+#error-message{
+  grid-column: 2/4;
+  grid-row: 2/4;
+}
+.error-grid img{
+  width:100%;
+  opacity: 20%;
+}
+#error-message{
+  font-size: 2rem;
+  color:var(--primary-color);
+  text-align: center;
+  font-weight: bolder;
 }
