@@ -202,27 +202,33 @@ section{
   border: 1px solid var(--accent-color);
   padding: 1rem;
   margin-bottom: 1rem;
-  font-size: .8rem;
+  height: 100%;
 }
 
-#inv-display a:link{
+.namePrice h2{
+  font-size: .8rem;
+  padding: .5rem;
+  text-wrap: nowrap;
+}
+
+.namePrice a:link{
   color: var(--accent-color);
 }
 
-#inv-display a:visited{
+.namePrice a:visited{
+  text-decoration: underline;
+  color: var(--accent-color);
+}
+
+.namePrice a:hover{
   text-decoration: underline;
   color: var(--dark-color);
 }
 
-#inv-display a:hover{
-  text-decoration: underline;
-  color: var(--accent-color);
-}
-
 #inv-display img{
   width: 100%;
-  height: auto;
-  object-fit: cover;
+  height: 75%;
+  object-fit: contain;
 }
 
 /* For Display Item View*/
