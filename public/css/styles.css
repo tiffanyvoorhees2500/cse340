@@ -15,12 +15,12 @@
 }
 
 body{
-  padding: .5rem;
+  padding: 1rem;
 }
 
 .main-container{
   margin: 0 auto;
-}
+} 
 
 main{
   background-color: var(--light-color);
@@ -56,11 +56,6 @@ main{
   font-size: .8rem;
 }
 
-@media only screen and (min-width: 768px) {
-  /* For desktop */
-
-}
-
 nav{
   background-color: var(--dark-color);
   color: var(--light-color);
@@ -94,10 +89,6 @@ nav{
 	font-weight: 700;
 	text-decoration: underline;
 	text-decoration-color: var(--accent-color);
-}
-
-.navigation.active::before{
-  content: "🚗"; /* just a wayfinding symbol for the user */
 }
 
 .wrap{
@@ -187,28 +178,46 @@ section{
   margin: 5px;
 }
 
+/* For the grid classification view */
 #inv-display{
-  text-align: center;
-  margin: 0;
-  padding: 1rem;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
+  padding: 0;
+  margin: 0;
 }
 
 #inv-display li{
+  display: grid;
   list-style: none;
   width: 100%;
   border: 1px solid var(--accent-color);
-  padding: 1rem;
-  margin-bottom: 1rem;
+  padding: 0.5rem;
+}
+
+#inv-display img{
+  width: 100%;
   height: 100%;
+  object-fit: cover;
+}
+
+.namePrice{
+  width:100%;
+  text-align: center;
+}
+
+.namePrice hr{
+  margin-top: 1rem;
 }
 
 .namePrice h2{
-  font-size: .8rem;
-  padding: .5rem;
-  text-wrap: nowrap;
+  font-size: 1rem;
+  margin: 1rem;
+}
+
+.namePrice span{
+  color: var(--primary-color);
+  font-weight: bold;
 }
 
 .namePrice a:link{
@@ -225,11 +234,6 @@ section{
   color: var(--dark-color);
 }
 
-#inv-display img{
-  width: 100%;
-  height: 75%;
-  object-fit: contain;
-}
 
 /* For Display Item View*/
 .info-container{
