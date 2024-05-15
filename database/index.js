@@ -21,10 +21,14 @@ if (process.env.NODE_ENV == "development") {
     async query(text, params) {
       try {
         const res = await pool.query(text, params)
-        // console.log("executed query", { text })
+        console.log("--------------------------------------")
+        console.log("Executed query", { text })
+        console.log("--------------------------------------")
         return res
       } catch (error) {
-        // console.error("error in query", { text })
+        console.log("--------------------------------------")
+        console.error("Error in query", { text })
+        console.log("--------------------------------------")
         throw error
       }
     },
