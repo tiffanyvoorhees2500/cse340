@@ -17,7 +17,7 @@
     .main-container{
         background-color: var(--light-color);
         max-width: 960px;
-        border: 8px solid var(--accent-color);
+        border: 8px solid var(--light-contrast);
         border-radius: 5px;
         padding: 5px;
         height: auto;

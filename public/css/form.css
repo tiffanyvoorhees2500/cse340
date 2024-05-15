@@ -1,0 +1,54 @@
+form{
+    display:grid;
+    max-width: 400px;
+    background-color: #eee;
+    padding: 1rem;
+    border-radius: 5px;
+    margin: 1rem auto;
+}
+
+form label, form input{
+    width: 100%;
+}
+
+form input{
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border-radius: 5px;
+}
+
+.input-group{
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#pswdBtn{
+    border: 2px solid #000;
+    border-radius: 5px;
+    padding: 12px 20px;
+    font-size: small;
+    width: 7em;
+    text-align: center;
+}
+#pswdBtn:hover{
+    text-decoration: underline;
+    cursor: pointer;
+    
+}
+
+#noAccount{
+    margin: 1rem;
+    text-align: center;
+}
+#noAccount a{
+    color: var(--light-contrast);
+}
+
+.astric-paragraph{
+    font-size: smaller;
+    margin-bottom: 1rem;
+}
+
