@@ -1,6 +1,6 @@
 @media only screen and (min-width: 768px){
     body{
-        background-image: url("../images/site/small_check.png");
+        background-image: url("../images/site/small_check.jpg");
         margin-top: 1rem;
         background-size: cover;
         font-family: var(--paragraph-font);

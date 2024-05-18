@@ -11,7 +11,8 @@ invCont.buildByClassificationId = async function (req, res, next) {
   const data = await invModel.getInventoryByClassificationId(classification_id)
   const grid = await utilities.buildClassificationGrid(data)
   let nav = await utilities.getNav()
-  const className = data[0].classification_name
+  const classificationObj = await invModel.getClassificationById(classification_id)
+  const className = classificationObj.classification_name
   res.render("./inventory/classification", {
     title: className + " vehicles",
     nav,
@@ -62,12 +63,13 @@ invCont.buildAddClassification = async function(req, res, next){
 *  Add New Classification
 * *************************************** */
 invCont.addClassification = async function(req, res){
-  let nav = await utilities.getNav()
   const { classification_name } = req.body
 
   const invResult = await invModel.addClassification(
     classification_name
   )
+  
+  let nav = await utilities.getNav()
 
   if (invResult) {
     req.flash(
@@ -107,7 +109,6 @@ invCont.buildAddInventory = async function(req, res, next){
 *  Add New Classification
 * *************************************** */
 invCont.addInventory = async function(req, res){
-  let nav = await utilities.getNav()
   const { inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id } = req.body
 
   const invResult = await invModel.addInventory(
@@ -123,6 +124,7 @@ invCont.addInventory = async function(req, res){
     classification_id
   )
 
+  let nav = await utilities.getNav()
 
   if (invResult) {
     req.flash(

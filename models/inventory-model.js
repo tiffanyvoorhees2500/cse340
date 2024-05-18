@@ -9,6 +9,23 @@ async function getClassifications(){
 }
 
 /* ***************************
+ *  Get classification by classification ID
+ * ************************** */
+async function getClassificationById(classification_id){
+  try {
+    const data = await pool.query(
+      `SELECT * FROM public.classification 
+      WHERE classification_id = $1`,
+      [classification_id]
+    )
+    //Only 1 row of data should be returned
+    return data.rows[0]
+  } catch (error) {
+    console.error("getClassificationById error " + error)
+  }
+}
+
+/* ***************************
  *  Get all inventory items and classification_name by classification_id
  * ************************** */
 async function getInventoryByClassificationId(classification_id) {
@@ -22,7 +39,7 @@ async function getInventoryByClassificationId(classification_id) {
     )
     return data.rows
   } catch (error) {
-    console.error("getclassificationsbyid error " + error)
+    console.error("getInventoryByClassificationId error " + error)
   }
 }
 
@@ -39,7 +56,7 @@ async function getInventoryByInventoryId(inv_id) {
     //Only 1 row of data should be returned
     return data.rows[0]
   } catch (error) {
-    console.error("getdetailbyid error " + error)
+    console.error("getInventoryByInventoryId error " + error)
   }
 }
 
@@ -97,4 +114,5 @@ module.exports = {
   getInventoryByInventoryId, 
   addClassification, 
   checkExistingClassificationName, 
-  addInventory };
+  addInventory,
+getClassificationById };
