@@ -39,10 +39,10 @@
     <textarea id="inv_description" name="inv_description" rows="3" placeholder="* Description..." required><%= locals.inv_description %></textarea>
 
     <label for="inv_image">Image:</label>
-    <input type="text" id="inv_image" name="inv_image" placeholder="* Image..." required disabled value="/images/vehicles/no-image.png">
+    <input type="text" id="inv_image" name="inv_image" placeholder="* Image..." required readonly value="/images/vehicles/no-image.png">
 
     <label for="inv_thumbnail">Image Thumbnail:</label>
-    <input type="text" id="inv_thumbnail" name="inv_thumbnail" placeholder="* Image Thumbnail..." required disabled value="/images/vehicles/no-image-tn.png">
+    <input type="text" id="inv_thumbnail" name="inv_thumbnail" placeholder="* Image Thumbnail..." required readonly value="/images/vehicles/no-image-tn.png">
 
     <label for="inv_price">Price:</label>
     <input type="text" id="inv_price" name="inv_price" placeholder="* Decimal or Integer" required value="<%= locals.inv_price %>">
