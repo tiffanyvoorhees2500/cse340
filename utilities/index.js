@@ -88,6 +88,27 @@ Util.buildDetailView = async function(item){
   return detail
 }
 
+/* **************************************
+* Build the classification select element on the add-inventory view HTML
+* ************************************ */
+Util.buildClassificationSelect = async function (classification_id = null) {
+  let data = await invModel.getClassifications()
+  let classificationList
+
+  classificationList = `<select id="classification_id" name="classification_id" required>`
+    classificationList += `<option value="">Choose a classification</option>`
+    data.rows.forEach(element => {
+      classificationList += `<option value="` + element.classification_id + `"`
+      if(classification_id != null && element.classification_id == classification_id){
+        classificationList += ` selected`
+      }
+      classificationList += `>` + element.classification_name + `</option>`
+    });
+  classificationList += `</select>`
+
+  return classificationList
+}
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 

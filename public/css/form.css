@@ -11,7 +11,7 @@ form label, form input{
     width: 100%;
 }
 
-form input{
+form input, form textarea, form select{
     width: 100%;
     padding: 12px 20px;
     margin: 8px 0;
@@ -51,4 +51,3 @@ form input{
     font-size: smaller;
     margin-bottom: 1rem;
 }
-

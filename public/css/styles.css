@@ -295,3 +295,24 @@ section{
   text-align: center;
   font-weight: bolder;
 }
+
+.menu-list{
+  display: flex;
+  justify-content: space-between;
+}
+
+.menu-item{
+  list-style: none;
+  border: 1px solid var(--light-contrast);
+  background-color: var(--light-contrast);
+  padding: 12px 20px;
+}
+
+.menu-item a{
+  text-decoration: none;
+  color: var(--light-color);
+}
+
+.menu-item a:hover{
+  text-decoration: underline;
+} 
