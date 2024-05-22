@@ -6,7 +6,7 @@ const utilities = require("../utilities/")
 const regValidate = require('../utilities/account-validation')
 
 // Route to build the account screen
-router.get("/", utilities.handleErrors(accountController.buildAccountManagement));
+router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.buildAccountManagement));
 // Route to build login screen
 router.get("/login", utilities.handleErrors(accountController.buildLogin));
 // Route to build regsitration screen
