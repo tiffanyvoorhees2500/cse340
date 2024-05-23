@@ -20,9 +20,11 @@ router.post("/add-classification",
     utilities.handleErrors(invController.addClassification)
 );
 
-/* ----------------- Dealing with classifications ------------------------ */
+/* ----------------- Dealing with inventory ------------------------ */
 // Route to build inventory by inventory detail view
-router.get("/detail/:inventoryId",utilities.handleErrors(invController.buildByInventoryId));
+router.get("/detail/:inventoryId",utilities.handleErrors(invController.buildDetailByInventoryId));
+// Route to edit inventory by inventory_id
+router.get("/edit/:inventoryId",utilities.handleErrors(invController.buildEditByInventoryId));
 // Route to build add-inventory view
 router.get("/add-inventory",utilities.handleErrors(invController.buildAddInventory));
 router.post("/add-inventory",

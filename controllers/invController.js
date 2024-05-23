@@ -3,6 +3,7 @@ const utilities = require("../utilities/")
 
 const invCont = {}
 
+// Dealing with classifications
 /* ***************************
  *  Build inventory by classification view
  * ************************** */
@@ -20,37 +21,8 @@ invCont.buildByClassificationId = async function (req, res, next) {
   })
 }
 
-/* ***************************
- *  Build inventory by inventory detail view
- * ************************** */
-invCont.buildByInventoryId = async function (req, res, next) {
-  const inv_id = req.params.inventoryId
-  const item = await invModel.getInventoryByInventoryId(inv_id)
-  const detail = await utilities.buildDetailView(item)
-  let nav = await utilities.getNav()
-  const itemName = item.inv_year + " " + item.inv_make + " " + item.inv_model
-  res.render("./inventory/detail", {
-    title: itemName,
-    nav,
-    detail,
-  })
-}
-
 /* ****************************************
-*  Deliver Inventory Manager view
-* *************************************** */
-invCont.buildInventoryManager = async function(req, res, next){
-  let nav = await utilities.getNav()
-  const classificationSelect = await utilities.buildClassificationSelect()
-  res.render("inventory/management",{
-      title: "Vehicle Management",
-      nav,
-      classificationSelect,
-  })
-}
-
-/* ****************************************
-*  Deliver Manager Add Classification View
+*  Deliver Add Classification View
 * *************************************** */
 invCont.buildAddClassification = async function(req, res, next){
   let nav = await utilities.getNav()
@@ -92,8 +64,38 @@ invCont.addClassification = async function(req, res){
   }
 }
 
+// Dealing with Inventory
+/* ***************************
+ *  Build inventory by inventory detail view
+ * ************************** */
+invCont.buildDetailByInventoryId = async function (req, res, next) {
+  const inv_id = req.params.inventoryId
+  const item = await invModel.getInventoryByInventoryId(inv_id)
+  const detail = await utilities.buildDetailView(item)
+  let nav = await utilities.getNav()
+  const itemName = item.inv_year + " " + item.inv_make + " " + item.inv_model
+  res.render("./inventory/detail", {
+    title: itemName,
+    nav,
+    detail,
+  })
+}
+
 /* ****************************************
-*  Deliver Manager Add Inventory View
+*  Deliver Inventory Manager view
+* *************************************** */
+invCont.buildInventoryManager = async function(req, res, next){
+  let nav = await utilities.getNav()
+  const classificationSelect = await utilities.buildClassificationSelect()
+  res.render("inventory/management",{
+      title: "Vehicle Management",
+      nav,
+      classificationSelect,
+  })
+}
+
+/* ****************************************
+*  Deliver Add Inventory View
 * *************************************** */
 invCont.buildAddInventory = async function(req, res, next){
   let nav = await utilities.getNav()
@@ -108,7 +110,7 @@ invCont.buildAddInventory = async function(req, res, next){
 }
 
 /* ****************************************
-*  Add New Classification
+*  Add New Inventory
 * *************************************** */
 invCont.addInventory = async function(req, res){
   const { inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id } = req.body
@@ -164,6 +166,34 @@ invCont.getInventoryJSON = async (req, res, next) => {
   } else {
     next(new Error("No data returned"))
   }
+}
+
+/* ***************************
+ *  Deliver Edit Inventory View
+ * ************************** */
+invCont.buildEditByInventoryId = async function(req, res, next){
+  const inv_id = parseInt(req.params.inventoryId)
+  const item = await invModel.getInventoryByInventoryId(inv_id)
+  let nav = await utilities.getNav()
+  const itemName = item.inv_make + " " + item.inv_model
+  let classificationSelect = await utilities.buildClassificationSelect()
+  res.render("./inventory/edit-inventory", {
+    title: "Edit " + itemName,
+    nav,
+    classificationSelect,
+    errors: null,
+    inv_id: item.inv_id,
+    inv_make: item.inv_make,
+    inv_model: item.inv_model,
+    inv_year: item.inv_year,
+    inv_description: item.inv_description,
+    inv_image: item.inv_image,
+    inv_thumbnail: item.inv_thumbnail,
+    inv_price: item.inv_price,
+    inv_miles: item.inv_miles,
+    inv_color: item.inv_color,
+    classification_id: item.classification_id
+  })
 }
 
 module.exports = invCont

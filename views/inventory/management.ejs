@@ -1,6 +1,6 @@
 <!-- Draw the title if provided, if not redirect to default page -->
 <% if (title) { %>
-    <h1><%= title %></h1>
+    <h1 class="left-align"><%= title %></h1>
 <% } else {
     res.redirect('/')
 } %>
@@ -9,18 +9,24 @@
 <%- messages() %>
 
 <!-- Links for inventory management-->
-<ul class="menu-list">
-    <li class="menu-item"><a href="../../inv/add-classification">Add new Classification</a></li>
-    <li class="menu-item"><a href="../../inv/add-inventory">Add new Inventory</a></li>
-</ul>
+<div id="inventory-management">
+    <ul class="menu-list">
+        <li class="menu-item"><a href="../../inv/add-classification">Add new Classification</a></li>
+        <li class="menu-item"><a href="../../inv/add-inventory">Add new Inventory</a></li>
+    </ul>
+    <hr>
+    <section id="manage-inv">
+        <h2>Manage Inventory</h2>
+        <label for="classification_id">Select a classification to see the inventory</label>
+    
+        <%- classificationSelect %>
+    
+        <table id="inventoryDisplay"></table>
+    
+        <noscript>JavaScript must be enabled to use this page.</noscript>
+    </section>
+</div>
 
-<h2>Manage Inventory</h2>
-<p>Select a classification to see the inventory</p>
 
-<%- classificationSelect %>
-
-<table id="inventoryDisplay"></table>
-
-<noscript>JavaScript must be enabled to use this page.</noscript>
 
 <script src="../../js/inventory.js" defer></script>

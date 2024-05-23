@@ -14,6 +14,7 @@
 
   --light-color: #FFFFFF;
   --light-contrast: #902A37;
+  --light-contrast-transparent: #902A3770;
 }
 
 body{
@@ -173,7 +174,11 @@ footer{
 h1{
   text-align: center;
   padding-bottom:.5rem;
-  color: var(--light-contrast)
+  color: var(--light-contrast);
+}
+
+h2{
+  color: var(--light-contrast);
 }
 
 section{
@@ -298,8 +303,9 @@ section{
 }
 
 .menu-list{
-  display: flex;
-  justify-content: space-between;
+  width: 300px;
+  text-align: center;
+  padding: 0;
 }
 
 .menu-item{
@@ -307,6 +313,7 @@ section{
   border: 1px solid var(--light-contrast);
   background-color: var(--light-contrast);
   padding: 12px 20px;
+  margin-bottom: 1rem;
 }
 
 .menu-item a{
@@ -317,3 +324,44 @@ section{
 .menu-item a:hover{
   text-decoration: underline;
 } 
+
+#manage-inv{
+  padding: 1rem;
+  text-align: center;
+}
+
+#manage-inv h2{
+  padding-bottom: .8rem;
+}
+
+#manage-inv select{
+  padding: 12px 20px;
+  margin: 8px 0;
+}
+
+#inventoryDisplay{
+  margin: 0 auto;
+  font-size: .8rem;
+  border: 2px solid var(--light-contrast);
+  border-collapse: collapse;
+}
+
+#inventoryDisplay th,
+#inventoryDisplay td{
+  padding: .5em 1rem;
+  white-space: pre;
+}
+
+#inventoryDisplay tr:nth-child(even){
+  background-color: var(--light-contrast-transparent);
+}
+
+#inventoryDisplay td a{
+  color: var(--dark-color);
+}
+
+#inventory-management{
+  max-width:fit-content;
+  padding: 1rem;
+  border: 3px solid var(--light-contrast);
+}

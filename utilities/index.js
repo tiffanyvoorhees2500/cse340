@@ -109,6 +109,14 @@ Util.buildClassificationSelect = async function (classification_id = null) {
   return classificationList
 }
 
+
+/* ****************************************
+ *  Build edit inventroy view HTML
+ * ************************************ */
+Util.buildEditDetailView = (req, res, next) => {
+
+}
+
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 
