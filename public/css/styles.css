@@ -365,3 +365,6 @@ section{
   padding: 1rem;
   border: 3px solid var(--light-contrast);
 }
+#inventory-management label{
+  display:block;
+}

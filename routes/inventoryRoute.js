@@ -25,6 +25,11 @@ router.post("/add-classification",
 router.get("/detail/:inventoryId",utilities.handleErrors(invController.buildDetailByInventoryId));
 // Route to edit inventory by inventory_id
 router.get("/edit/:inventoryId",utilities.handleErrors(invController.buildEditByInventoryId));
+router.post("/edit/",
+    invValidate.inventoryRules(),
+    invValidate.checkEditInventoryData,
+    utilities.handleErrors(invController.editInventory)
+)
 // Route to build add-inventory view
 router.get("/add-inventory",utilities.handleErrors(invController.buildAddInventory));
 router.post("/add-inventory",

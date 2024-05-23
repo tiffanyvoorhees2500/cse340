@@ -21,7 +21,7 @@
 <% } %>
 
 <!-- Login Form -->
-<form action="/inv/edit-inventory" method="post">
+<form id="editForm" action="/inv/edit" method="post">
     
     <label for="classification_id">Classification:</label>
     <%- classificationSelect %>
@@ -53,9 +53,15 @@
     <label for="inv_color">Color:</label>
     <input type="text" id="inv_color" name="inv_color" placeholder="* Color..." required value="<%= locals.inv_color %>">
 
-    <button type="submit" class="action-button">Update Inventory Item</button>
+    <button type="submit" class="action-button" disabled>Update Inventory Item</button>
+
+    <input type="hidden" name="inv_id"
+        <% if(locals.inv_id) { %> value="<%= locals.inv_id %>"
+        <% } %>>
 
 </form>
 <ul class="menu-list">
     <li class="menu-item"><a href="../../inv">Back to Menu</a></li>
 </ul>
+
+<script src="../../js/inv-update.js"></script>
