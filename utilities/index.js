@@ -26,6 +26,27 @@ Util.getNav = async function (req, res, next) {
   return list
 }
 
+/* ************************
+ * Constructs the accountTool HTML
+************************** */
+Util.getAccountTool = async function (accountData){
+  console.log("This is where I am not working")
+  console.log(accountData)
+
+  let accountTool
+
+  if(accountData){
+    const userName= accountData.account_firstname
+
+    accountTool = `<a title="Click to Manage Account" href="/account/">Welcome ${userName}</a>`
+    accountTool += `<a title="Click to Logout" href="/account/logout/">Logout</a>`
+  }else{
+    accountTool = `<a title="Click to log in" href="/account/">My Account</a>`
+  }
+
+  return accountTool
+}
+
 /* **************************************
 * Build the classification view HTML
 * ************************************ */

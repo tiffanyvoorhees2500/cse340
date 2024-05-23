@@ -112,6 +112,9 @@ nav{
   flex-grow: 1;
   text-align: right;
 }
+#tools a{
+  padding: 0 .8rem;
+}
 
 .siteName a{
   text-decoration: none;

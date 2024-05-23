@@ -9,9 +9,14 @@ require("dotenv").config()
 * *************************************** */
 async function buildLogin(req, res, next){
     let nav = await utilities.getNav()
+    
+    const accountData = res.locals.accountData
+    let accountTool = await utilities.getAccountTool(accountData)
+    
     res.render("account/login",{
         title: "Login",
         nav,
+        accountTool,
         errors: null,
     })
 }
@@ -21,9 +26,14 @@ async function buildLogin(req, res, next){
 * *************************************** */
 async function buildRegister(req, res, next){
     let nav = await utilities.getNav()
+    
+    const accountData = res.locals.accountData
+    let accountTool = await utilities.getAccountTool(accountData)
+    
     res.render("account/register",{
         title: "Register",
         nav,
+        accountTool,
         errors: null,
     })
 }
@@ -33,6 +43,10 @@ async function buildRegister(req, res, next){
 * *************************************** */
 async function registerAccount(req, res) {
   let nav = await utilities.getNav()
+    
+  const accountData = res.locals.accountData
+  let accountTool = await utilities.getAccountTool(accountData)
+
   const { account_firstname, account_lastname, account_email, account_password } = req.body
 
   // Hash the password before storing
@@ -45,6 +59,7 @@ async function registerAccount(req, res) {
     res.status(500).render("account/register", {
       title: "Registration",
       nav,
+      accountTool,
       errors: null,
     })
   }
@@ -64,6 +79,7 @@ async function registerAccount(req, res) {
     res.status(201).render("account/login", {
       title: "Login",
       nav,
+      accountTool,
       errors: null,
     })
   } else {
@@ -71,6 +87,7 @@ async function registerAccount(req, res) {
     res.status(501).render("account/register", {
       title: "Registration",
       nav,
+      accountTool,
     })
   }
 }
@@ -81,12 +98,16 @@ async function registerAccount(req, res) {
 async function accountLogin(req, res) {
     let nav = await utilities.getNav()
     const { account_email, account_password } = req.body
-    const accountData = await accountModel.getAccountByEmail(account_email)
+    
+    const accountData = res.locals.accountData
+    let accountTool = await utilities.getAccountTool(accountData)
+
     if (!accountData) {
       req.flash("notice", "Please check your credentials and try again.")
       res.status(400).render("account/login", {
         title: "Login",
         nav,
+        accountTool,
         errors: null,
         account_email,
     })
@@ -113,9 +134,14 @@ async function accountLogin(req, res) {
  * ************************************ */
 async function buildAccountManagement(req, res, next){
     let nav = await utilities.getNav()
+
+    const accountData = res.locals.accountData
+    let accountTool = await utilities.getAccountTool(accountData)
+
     res.render("account/management",{
         title: "Account Management",
         nav,
+        accountTool,
         errors: null,
     })
 }

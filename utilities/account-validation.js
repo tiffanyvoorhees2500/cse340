@@ -65,10 +65,15 @@ validate.checkRegData = async (req, res, next) => {
     errors = validationResult(req)
     if (!errors.isEmpty()) {
         let nav = await utilities.getNav()
+    
+        const accountData = res.locals.accountData
+        let accountTool = await utilities.getAccountTool(accountData)
+
         res.render("account/register", {
         errors,
         title: "Registration",
         nav,
+        accountTool,
         account_firstname,
         account_lastname,
         account_email,
@@ -122,10 +127,15 @@ validate.checkLoginData = async (req, res, next) => {
     errors = validationResult(req)
     if (!errors.isEmpty()) {
         let nav = await utilities.getNav()
+    
+        const accountData = res.locals.accountData
+        let accountTool = await utilities.getAccountTool(accountData)
+
         res.render("account/login", {
         errors,
         title: "Login",
         nav,
+        accountTool,
         account_email,
         })
         return

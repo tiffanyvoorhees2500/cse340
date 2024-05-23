@@ -35,10 +35,15 @@ validate.checkClassificationData = async (req, res, next) => {
     errors = validationResult(req)
     if (!errors.isEmpty()) {
         let nav = await utilities.getNav()
+    
+        const accountData = res.locals.accountData
+        let accountTool = await utilities.getAccountTool(accountData)
+
         res.render("inventory/add-classification", {
         errors,
         title: "New Classification",
         nav,
+        accountTool,
         classification_name,
         })
         return
@@ -126,12 +131,17 @@ validate.checkInventoryData = async (req, res, next) => {
     errors = validationResult(req)
     if (!errors.isEmpty()) {
         let nav = await utilities.getNav()
+    
+        const accountData = res.locals.accountData
+        let accountTool = await utilities.getAccountTool(accountData)
+
         let classificationSelect = await utilities.buildClassificationSelect(classification_id)
 
         res.render("inventory/add-inventory", {
         errors,
         title: "New Inventory",
         nav,
+        accountTool,
         classificationSelect,
         inv_make, 
         inv_model, 
@@ -157,12 +167,17 @@ validate.checkEditInventoryData = async (req, res, next) => {
     errors = validationResult(req)
     if (!errors.isEmpty()) {
         let nav = await utilities.getNav()
+    
+        const accountData = res.locals.accountData
+        let accountTool = await utilities.getAccountTool(accountData)
+
         let classificationSelect = await utilities.buildClassificationSelect(classification_id)
 
         res.render("inventory/edit-inventory", {
         errors,
         title: "Edit " + inv_make + " " + inv_model,
         nav,
+        accountTool,
         classificationSelect,
         inv_make, 
         inv_model, 
