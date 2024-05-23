@@ -99,7 +99,7 @@ async function accountLogin(req, res) {
     let nav = await utilities.getNav()
     const { account_email, account_password } = req.body
     
-    const accountData = res.locals.accountData
+    const accountData = await accountModel.getAccountByEmail(account_email)
     let accountTool = await utilities.getAccountTool(accountData)
 
     if (!accountData) {

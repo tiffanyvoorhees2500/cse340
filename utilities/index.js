@@ -30,9 +30,6 @@ Util.getNav = async function (req, res, next) {
  * Constructs the accountTool HTML
 ************************** */
 Util.getAccountTool = async function (accountData){
-  console.log("This is where I am not working")
-  console.log(accountData)
-
   let accountTool
 
   if(accountData){
