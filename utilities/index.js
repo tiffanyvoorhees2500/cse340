@@ -170,4 +170,21 @@ Util.checkLogin = (req, res, next) => {
   }
 }
 
+/* ****************************************
+ *  Check Authorization
+ * ************************************ */
+Util.checkAuthorization = (req, res, next) => {
+  if (res.locals.accountData) {
+    if(res.locals.accountData.account_type != "Client"){
+      next()
+    } else {
+      req.flash("notice", "You are not authorized. Maybe you have a different login?")
+      return res.redirect("/account/login")
+    }
+  } else {
+    req.flash("notice", "Please log in.")
+    return res.redirect("/account/login")
+  }
+}
+
 module.exports = Util
