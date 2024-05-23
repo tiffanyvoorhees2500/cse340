@@ -249,4 +249,61 @@ invCont.editInventory = async function(req, res){
   }
 }
 
+/* ***************************
+ *  Deliver Delete Inventory View
+ * ************************** */
+invCont.buildDeleteByInventoryId = async function(req, res, next){
+  const inv_id = parseInt(req.params.inventoryId)
+  const item = await invModel.getInventoryByInventoryId(inv_id)
+  let nav = await utilities.getNav()
+  const itemName = item.inv_make + " " + item.inv_model
+  res.render("./inventory/delete-inventory", {
+    title: "Delete " + itemName,
+    nav,
+    errors: null,
+    inv_id: item.inv_id,
+    inv_make: item.inv_make,
+    inv_model: item.inv_model,
+    inv_year: item.inv_year,
+    inv_price: item.inv_price
+  })
+}
+
+/* ****************************************
+*  Delete Inventory
+* *************************************** */
+invCont.deleteInventory = async function(req, res){
+  const { inv_id, inv_make, inv_model, inv_year } = req.body
+  const deleteResult = await invModel.deleteInventory(
+    inv_id,
+    inv_make, 
+    inv_model, 
+    inv_year
+  )
+
+  let nav = await utilities.getNav()
+
+  if (deleteResult) {
+    const itemName = inv_make + " " + inv_model
+    req.flash(
+      "notice",
+      `The ${itemName} was successfully deleted.`
+    )
+    res.redirect("/inv/")
+  } else {
+    const itemName = `${inv_make} ${inv_model}`
+
+    req.flash("notice", "Sorry, inventory could not be deleted. Try again.")
+    res.status(501).render("inventory/delete-inventory", {
+      title: "Delete " + itemName,
+      nav,
+      errors: null,
+      inv_id,
+      inv_make,
+      inv_model,
+      inv_year
+    })
+  }
+}
+
 module.exports = invCont
