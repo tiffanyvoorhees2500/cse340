@@ -17,4 +17,10 @@
    </ul>
 <% } %>
 
-<h1>You logged in successfully!</h1>
+<section>
+    <h2>Welcome <%= firstName %>!</h2>
+    <p>You're logged in.</p>
+    <p><a href="../../account/edit">Edit Account Information</a></p>
+</section>
+
+<%- managementSection %>

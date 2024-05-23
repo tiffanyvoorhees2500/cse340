@@ -138,11 +138,21 @@ async function buildAccountManagement(req, res, next){
     const accountData = res.locals.accountData
     let accountTool = await utilities.getAccountTool(accountData)
 
+    let managementSection
+    if(accountData.account_type != "Client"){
+      managementSection = `<section id="managmentSection">`
+        managementSection += `<h3>Inventory Management</h3>`
+        managementSection += `<p><a href="../../inv">Access Inventory Manager</a></p>`
+      managementSection += `</section>`
+    }
+
     res.render("account/management",{
         title: "Account Management",
         nav,
         accountTool,
         errors: null,
+        firstName: accountData.account_firstname,
+        managementSection
     })
 }
 
