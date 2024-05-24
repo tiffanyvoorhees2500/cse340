@@ -12,15 +12,20 @@
 <% if (errors) { %>
     <ul class="notice">
         <% errors.array().forEach(error => { %>
-            <li><%= error.msg %></li>
+            <% console.log(error.msg); %>
+            <% if(error.msg != "Invalid value") { %>
+                <li><%= error.msg %></li>
+            <% } %>
         <%  }) %>
    </ul>
 <% } %>
 
-<section>
-    <h2>Welcome <%= firstName %>!</h2>
-    <p>You're logged in.</p>
-    <p><a href="../../account/edit">Edit Account Information</a></p>
-</section>
+<div id="account-management">
+    <section id="account-section">
+        <h2>Welcome <%= account_firstname %>!</h2>
+        <p>You're logged in.</p>
+        <p class="menu-item"><a href="../../account/edit/<%= account_id %>">Edit Account Information</a></p>
+    </section>
 
-<%- managementSection %>
+    <%- managementSection %>
+</div>

@@ -80,8 +80,11 @@ app.use(async (req, res, next) => {
 *************************/
 app.use(async (err, req, res, next) => {
   let nav = await utilities.getNav()
-  let accountTool = await utilities.getAccountTool()
-  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+
+  const accountData = res.locals.accountData
+  let accountTool = await utilities.getAccountTool(accountData)
+  
+  console.error(`------------Error at: "${req.originalUrl}": ${err.message}-------------------`)
   if(err.status == 404){ message = err.message} else {message = 'Oh no! There was a crash. Check your route (URL) or use our map (Navigation Menu).'}
   res.render("errors/error", {
     title: err.status || 'Server Error',

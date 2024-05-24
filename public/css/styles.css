@@ -371,3 +371,19 @@ section{
 #inventory-management label{
   display:block;
 }
+
+.notice{
+  list-style-type: none;
+}
+
+#account-management{
+  text-align: center;
+  max-width: 400px;
+}
+
+#account-section p,
+#managmentSection p{
+  margin-top: .8rem;
+}
+
+

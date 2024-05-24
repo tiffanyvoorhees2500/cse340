@@ -24,4 +24,20 @@ router.post("/register",
     utilities.handleErrors(accountController.registerAccount)
 );
 
+// Route to build/process edit account view
+router.get("/edit/:accountId", utilities.handleErrors(accountController.buildEditByAccountId));
+router.post("/edit-user",
+    regValidate.editRules(),
+    regValidate.checkEditData,
+    utilities.handleErrors(accountController.editUser)
+);
+router.post("/edit-password",
+    regValidate.passwordRules(),
+    regValidate.checkEditData,
+    utilities.handleErrors(accountController.editPassword)
+);
+
+// Route to process Logout
+router.get("/logout", utilities.handleErrors(accountController.logout));
+
 module.exports = router;

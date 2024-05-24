@@ -53,7 +53,7 @@ async function registerAccount(req, res) {
   let hashedPassword
   try {
     // regular password and cost (salt is generated automatically)
-    hashedPassword = await bcrypt.hashSync(account_password, 10)
+    hashedPassword = bcrypt.hashSync(account_password, 10)
   } catch (error) {
     req.flash("notice", 'Sorry, there was an error processing the registration.')
     res.status(500).render("account/register", {
@@ -137,12 +137,12 @@ async function buildAccountManagement(req, res, next){
 
     const accountData = res.locals.accountData
     let accountTool = await utilities.getAccountTool(accountData)
-
+    
     let managementSection
     if(accountData.account_type != "Client"){
       managementSection = `<section id="managmentSection">`
         managementSection += `<h3>Inventory Management</h3>`
-        managementSection += `<p><a href="../../inv">Access Inventory Manager</a></p>`
+        managementSection += `<p class="menu-item"><a href="../../inv">Access Inventory Manager</a></p>`
       managementSection += `</section>`
     }
 
@@ -151,9 +151,150 @@ async function buildAccountManagement(req, res, next){
         nav,
         accountTool,
         errors: null,
-        firstName: accountData.account_firstname,
+        account_id: accountData.account_id,
+        account_firstname: accountData.account_firstname,
         managementSection
     })
 }
 
-module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, buildAccountManagement }
+/* ***************************
+ *  Deliver Edit Account View
+ * ************************** */
+async function buildEditByAccountId(req, res, next){
+  const account_id = parseInt(req.params.accountId)
+  const account = await accountModel.getAccountById(account_id)
+  let nav = await utilities.getNav()
+    
+  const accountData = res.locals.accountData
+  let accountTool = await utilities.getAccountTool(accountData)
+
+  res.render("./account/edit-account", {
+    title: "Edit Account Information",
+    nav,
+    accountTool,
+    errors: null,
+    account_id: account_id,
+    account_firstname: accountData.account_firstname,
+    account_lastname: accountData.account_lastname,
+    account_email: accountData.account_email,
+  })
+}
+
+/* ****************************************
+*  Process Update User Information
+* *************************************** */
+async function editUser(req, res, next) {
+  const { account_id, account_firstname, account_lastname, account_email } = req.body
+  const updateResult = await accountModel.editNameByAccountId(
+    account_id,
+    account_firstname,
+    account_lastname,
+    account_email
+  )
+
+  if (updateResult) {
+    // Delete password
+    const accountData = updateResult
+    delete accountData.account_password
+    // Sign new cookie
+    const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 })
+    if(process.env.NODE_ENV === 'development') {
+      res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
+    } else {
+      res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
+    }
+    req.flash("notice", "Your data has been updated.")
+    return res.redirect("/account")
+
+  } else {
+    req.flash("notice", "Sorry, the update failed.")
+    res.status(501).render("account/edit-account", {
+      title: "Edit User Information",
+      nav,
+      accountTool,
+      errors,
+      account_id,
+      account_firstname,
+      account_lastname,
+    })
+  }
+}
+
+/* ****************************************
+*  Process Update User Information
+* *************************************** */
+async function editPassword(req, res) {
+  const { account_id, account_password } = req.body
+
+  // Hash the password before storing
+  let hashedPassword
+  try {
+    // regular password and cost (salt is generated automatically)
+    hashedPassword = bcrypt.hashSync(account_password, 10)
+  } catch (error) {
+    req.flash("notice", 'Sorry, there was an error updating your password.')
+    res.status(500).render("account/edit-account", {
+      title: "Edit Account Information",
+      nav,
+      accountTool,
+      errors: null,
+      account_id
+    })
+  }
+
+  const updateResult = await accountModel.editPasswordByAccountId(
+    account_id,
+    hashedPassword
+  )
+  if (updateResult) {
+    // Delete password
+    const accountData = updateResult
+    delete accountData.account_password
+    // Sign new cookie
+    const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 })
+    if(process.env.NODE_ENV === 'development') {
+      res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
+    } else {
+      res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
+    }
+
+    req.flash("notice", "Your password was changed successfully.")
+    return res.redirect("/account")
+
+  } else {
+    req.flash("notice", "Sorry, the update failed.")
+    res.status(501).render("account/edit-account", {
+      title: "Edit User Information",
+      nav,
+      accountTool,
+      errors: null,
+      account_id,
+    })
+  }
+}
+
+/* ****************************************
+*  Process Update User Information
+* *************************************** */
+async function logout(req, res) {
+    if(process.env.NODE_ENV === 'development') {
+      res.clearCookie("jwt", { httpOnly: true })
+    } else {
+      res.clearCookie("jwt", { httpOnly: true, secure: true })
+    }
+
+    req.flash("notice", "You are logged out")
+    return res.redirect("/account/login")
+}
+
+module.exports = { 
+  buildLogin, 
+  buildRegister, 
+  registerAccount, 
+  accountLogin, 
+  buildAccountManagement, 
+  buildEditByAccountId,
+  editUser,
+  editPassword,
+  logout
+}
