@@ -342,25 +342,36 @@ section{
   margin: 8px 0;
 }
 
-#inventoryDisplay{
-  margin: 0 auto;
-  font-size: .8rem;
+#inventoryDisplay,
+#approvalTable{
+  margin: 1rem auto;
+  font-size: .8em;
   border: 2px solid var(--light-contrast);
   border-collapse: collapse;
+  width: 100%;
 }
 
 #inventoryDisplay th,
-#inventoryDisplay td{
-  padding: .5em 1rem;
-  white-space: pre;
+#inventoryDisplay td,
+#approvalTable th,
+#approvalTable td{
+  padding: .5em .5em;
+  text-align: left;
 }
 
-#inventoryDisplay tr:nth-child(even){
+#inventoryDisplay tr:nth-child(even),
+#approvalTable tr:nth-child(even){
   background-color: var(--light-contrast-transparent);
 }
 
-#inventoryDisplay td a{
+#inventoryDisplay td a,
+#approvalTable td a{
   color: var(--dark-color);
+}
+
+#approvalTable caption{
+  font-size: 1.5rem;
+  color: var(--light-contrast);
 }
 
 #inventory-management{
@@ -386,4 +397,43 @@ section{
   margin-top: .8rem;
 }
 
+#adminButtons,
+#empButtons{
+  display: flex;
+  flex-direction: column;
+}
 
+.admin-menu-link{
+  text-align: center;
+  text-decoration: none;
+}
+
+.admin-menu-btn,
+.admin-menu-link
+{
+  background-color:var(--primary-color);
+  font-weight: bold;
+  font-size: 14px;
+  color: var(--light-contrast);
+  padding: .5rem;
+  border: 1px solid var(--light-contrast);
+  border-radius: 10px;
+  margin: .2rem;
+  cursor: pointer;
+}
+
+.admin-menu-btn:hover,
+.admin-menu-link:hover
+{
+  color: var(--light-contrast);
+  text-decoration: underline;
+}
+
+.approval-status{
+  font-size: smaller;
+  margin: 1rem 0;
+}
+
+.hidden{
+  display:none;
+}

@@ -14,11 +14,12 @@
         <li class="menu-item"><a href="../../inv/add-classification">Add new Classification</a></li>
         <li class="menu-item"><a href="../../inv/add-inventory">Add new Inventory</a></li>
     </ul>
-    <hr>
     <section id="manage-inv">
         <h2>Manage Inventory</h2>
+
+        <%- adminReviewSection %>
+        
         <label for="classification_id">Select a classification to see the inventory</label>
-    
         <%- classificationSelect %>
     
         <table id="inventoryDisplay"></table>
@@ -33,3 +34,4 @@
 
 
 <script src="../../js/inventory.js" defer></script>
+<script src="../../js/classification-review.js" defer></script>

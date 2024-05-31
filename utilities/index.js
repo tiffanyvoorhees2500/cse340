@@ -7,7 +7,7 @@ const Util = {}
  * Constructs the nav HTML unordered list
  ************************** */
 Util.getNav = async function (req, res, next) {
-  let data = await invModel.getClassifications()
+  let data = await invModel.getApprovedClassificationsWithInventory()
   let list = "<ul class='navigation wrap'>"
   list += '<li><a href="/" title="Home page">Home</a></li>'
   data.rows.forEach((row) => {
@@ -83,7 +83,6 @@ Util.buildClassificationGrid = async function(data){
 * ************************************ */
 Util.buildDetailView = async function(item){
   let detail
-
   detail = '<div class="info-container">'
     detail += '<picture  id="itemImage">'
       detail += '<img src="' + item.inv_image +'" alt="Image of '+ item.inv_make + ' ' + item.inv_model +' on CSE Motors">'
@@ -99,6 +98,8 @@ Util.buildDetailView = async function(item){
       detail += '<p><span class="detail-heading">Color: </span><span class="detail">' + item.inv_color + '</span></p>'
       
       detail += '<p class="item-description">' + item.inv_description + '</p>'
+
+      detail += '<input type="hidden" name="inv_id" id="inv_id" value="' + item.inv_id + '">'
     detail += '</div>'
 
   detail += '</div>'
@@ -110,7 +111,7 @@ Util.buildDetailView = async function(item){
 * Build the classification select element on the add-inventory view HTML
 * ************************************ */
 Util.buildClassificationSelect = async function (classification_id = null) {
-  let data = await invModel.getClassifications()
+  let data = await invModel.getApprovedClassifications()
   let classificationList
 
   classificationList = `<select id="classification_id" name="classification_id" required>`
@@ -125,6 +126,106 @@ Util.buildClassificationSelect = async function (classification_id = null) {
   classificationList += `</select>`
 
   return classificationList
+}
+
+/* **************************************
+* Build the classification/inventory review section for inventory management view HTML
+* ************************************ */
+Util.buildAdminReviewSection = async function (accountData) {
+  
+  let htmlString
+  if(accountData.account_type === "Admin"){
+    let data = await invModel.getItemsForReview()
+    
+    htmlString = `
+      <table id="approvalTable">
+    `
+    if(data.length > 0){
+      htmlString += `
+        <caption>Items to Review</caption>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Description</th>
+            <td>&nbsp;</td>
+          </tr>
+        </thead>
+        <tbody>
+      `
+    } else {
+      htmlString += `
+        <caption>No Items to review</caption>
+      `
+    }
+    
+
+    data.forEach(item => {
+    htmlString += `
+          <tr>
+            <td class="hidden">${item.item_id}</td>
+            <td class="item-type">${(item.type).toUpperCase()}</td>
+            <td class="item-description">${item.description}</td>
+            <td>
+    `
+    if(item.type === "classification"){
+    htmlString += `
+              <button class="approve-btn">Approve</button>
+              <button class="reject-btn">Reject</button>
+    `
+    }else if(item.type === "inventory"){
+    htmlString += `
+              <a href="../inv/detail/${item.item_id}" title="Click to Review">Review</a>
+    `
+    }
+    htmlString += `
+            </td>
+          </tr>
+    `
+    });
+
+    htmlString += `
+        </tbody>
+      </table>
+    `
+
+  } else{
+    htmlString = ""
+  }
+  return htmlString
+}
+
+Util.getAdminButtons = async function(item, accountData) {
+  let htmlString
+  htmlString = `
+    <aside id="adminMenu">
+  `
+  if(item.inv_approved === false && accountData.account_type === "Admin"){
+    htmlString += `
+        <section id="adminButtons">
+          <h2>Admin Actions</h2>
+          <button class="admin-menu-btn" id="approve-btn">Approve</button>
+          <button class="admin-menu-btn" id="reject-btn">Reject and Delete</button>
+        </section>
+    `  
+  }  
+  htmlString += `
+      <section id="empButtons">
+        <h2>Employee Actions</h2>
+        <a class="admin-menu-link" href="../../inv/edit/${item.inv_id}">Edit Item</a>
+        <a class="admin-menu-link" href="../../inv">Go to Inventory Manager</a>
+      </section>
+  `
+  if(item.inv_approved == true){
+    htmlString += `<p class="approval-status">Car has been approved by an admin</p>`
+  } else {
+    htmlString += `<p class="approval-status">Car is still pending approval by an admin</p>`
+  }
+
+  htmlString +=`
+    </aside>
+  `
+
+  return htmlString
 }
 
 /* ****************************************

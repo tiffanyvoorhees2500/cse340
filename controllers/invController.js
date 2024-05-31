@@ -9,21 +9,26 @@ const invCont = {}
  * ************************** */
 invCont.buildByClassificationId = async function (req, res, next) {
   const classification_id = parseInt(req.params.classificationId)
-  const data = await invModel.getInventoryByClassificationId(classification_id)
+  const data = await invModel.getApprovedInventoryByClassificationId(classification_id)
   const grid = await utilities.buildClassificationGrid(data)
   let nav = await utilities.getNav()
     
   const accountData = res.locals.accountData
   let accountTool = await utilities.getAccountTool(accountData)
 
-  const classificationObj = await invModel.getClassificationById(classification_id)
-  const className = classificationObj.classification_name
-  res.render("./inventory/classification", {
-    title: className + " vehicles",
-    nav,
-    accountTool,
-    grid,
-  })
+  if(data.length > 0){
+    console.log(data)
+    const className = data[0].classification_name
+    res.render("./inventory/classification", {
+      title: className + " vehicles",
+      nav,
+      accountTool,
+      grid,
+    })
+  }else{
+    throw new Error("Classification not approved with ID:" + classification_id)
+  }
+  
 }
 
 /* ****************************************
@@ -81,7 +86,7 @@ invCont.addClassification = async function(req, res){
 
 // Dealing with Inventory
 /* ***************************
- *  Build inventory by inventory detail view
+ *  Build detail view by inventory id
  * ************************** */
 invCont.buildDetailByInventoryId = async function (req, res, next) {
   const inv_id = req.params.inventoryId
@@ -92,12 +97,20 @@ invCont.buildDetailByInventoryId = async function (req, res, next) {
   const accountData = res.locals.accountData
   let accountTool = await utilities.getAccountTool(accountData)
 
+  // Check if item has been approved
+  let adminMenu
+  if(accountData.account_type !== "Client"){
+    adminMenu = await utilities.getAdminButtons(item, accountData)
+  }
+
   const itemName = item.inv_year + " " + item.inv_make + " " + item.inv_model
   res.render("./inventory/detail", {
     title: itemName,
     nav,
     accountTool,
+    errors: null,
     detail,
+    adminMenu
   })
 }
 
@@ -110,12 +123,15 @@ invCont.buildInventoryManager = async function(req, res, next){
   const accountData = res.locals.accountData
   let accountTool = await utilities.getAccountTool(accountData)
 
+  let adminReviewSection = await utilities.buildAdminReviewSection(accountData)
+
   const classificationSelect = await utilities.buildClassificationSelect()
   res.render("inventory/management",{
       title: "Vehicle Management",
       nav,
       accountTool,
       classificationSelect,
+      adminReviewSection,
   })
 }
 
@@ -203,6 +219,78 @@ invCont.getInventoryJSON = async (req, res, next) => {
   }
 }
 
+/* **********************************
+* Update Approval Return Inventory by ID AS JSON *
+********************************* */
+invCont.approveInventoryJSON = async(req, res, next) => {
+  const accountData = res.locals.accountData
+  const inv_id = parseInt(req.params.inv_id)
+  const approveResult = await invModel.approveInventory(
+    accountData.account_id,
+    inv_id
+  )
+  
+  if(approveResult){
+    console.log(approveResult);
+    req.flash("notice",approveResult.inv_make + " " + approveResult.inv_model + " has been approved")
+    return res.json(approveResult)
+  }else{
+    next(new Error("Approve Failed"))
+  }
+}
+
+/* **********************************
+* Reject Approval Return Inventory by ID AS JSON *
+********************************* */
+invCont.rejectInventoryJSON = async(req, res, next) => {
+  const inv_id = parseInt(req.params.inv_id)
+  const deleteResult = await invModel.deleteInventory(
+    inv_id
+  )
+  if(deleteResult){
+    req.flash("notice","Inventory Item has been deleted")
+    return res.json(deleteResult)
+  }else{
+    next(new Error("Deletion Failed"))
+  }
+}
+
+/* **********************************
+* Update Classification Approval Return Inventory by ID AS JSON *
+********************************* */
+invCont.approveClassificationJSON = async(req, res, next) => {
+  const accountData = res.locals.accountData
+  const classification_id = parseInt(req.params.classification_id)
+  const approveResult = await invModel.approveClassification(
+    accountData.account_id,
+    classification_id
+  )
+  
+  if(approveResult){
+    console.log(approveResult);
+    req.flash("notice",approveResult.classification_name + " classification has been approved")
+    return res.json(approveResult)
+  }else{
+    next(new Error("Approve Failed"))
+  }
+}
+
+/* **********************************
+* Reject Classification Approval Return Inventory by ID AS JSON *
+********************************* */
+invCont.rejectClassificationJSON = async(req, res, next) => {
+  const classification_id = parseInt(req.params.classification_id)
+  const deleteResult = await invModel.deleteClassification(
+    classification_id
+  )
+  if(deleteResult){
+    req.flash("notice","Classification Item has been deleted")
+    return res.json(deleteResult)
+  }else{
+    next(new Error("Deletion Failed"))
+  }
+}
+
 /* ***************************
  *  Deliver Edit Inventory View
  * ************************** */
@@ -216,6 +304,9 @@ invCont.buildEditByInventoryId = async function(req, res, next){
 
   const itemName = item.inv_make + " " + item.inv_model
   let classificationSelect = await utilities.buildClassificationSelect(item.classification_id)
+  if(item.inv_approved === false){
+    req.flash("notice","Item is still pending approval by admin")
+  }
   res.render("./inventory/edit-inventory", {
     title: "Edit " + itemName,
     nav,
@@ -232,7 +323,7 @@ invCont.buildEditByInventoryId = async function(req, res, next){
     inv_price: item.inv_price,
     inv_miles: item.inv_miles,
     inv_color: item.inv_color,
-    classification_id: item.classification_id
+    classification_id: item.classification_id,
   })
 }
 
@@ -273,7 +364,7 @@ invCont.editInventory = async function(req, res){
 
     req.flash("notice", "Sorry, inventory could not be updated. Try again.")
     res.status(501).render("inventory/edit-inventory", {
-      title: "Edit " + inv_make + " " + inv_model,
+      title: "Edit " + itemName,
       nav,
       accountTool,
       classificationSelect,

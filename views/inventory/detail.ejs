@@ -8,5 +8,25 @@
 <!-- Message Block to display if needed -->
 <%- messages() %>
 
-<!-- Inventory Item Display -->
-<%- detail %>
+<!-- Display errors if needed -->
+<% if (errors) { %>
+    <ul class="notice">
+        <% errors.array().forEach(error => { %>
+            <% console.log(error.msg); %>
+            <% if(error.msg != "Invalid value") { %>
+                <li><%= error.msg %></li>
+            <% } %>
+        <%  }) %>
+   </ul>
+<% } %>
+
+
+<div class="detail-wrapper">
+    <!-- Admin Menu -->
+    <%- adminMenu %>
+
+    <!-- Inventory Item Display -->
+    <%- detail %>
+</div>
+
+<script src="../../js/inv-review.js"></script>
